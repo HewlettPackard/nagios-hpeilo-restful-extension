@@ -1,0 +1,1 @@
+libexec_SCRIPTS = nagios_hpeilo_cfg_generator nagios_hpeilo_traps hpeilo_nagios_config hpeilo_snmp_service_set_tool

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/lnx-nire/!svn/ver/98/branches/lnx-nire-1.0/src/include
+END
+cJSON.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/lnx-nire/!svn/ver/4/branches/lnx-nire-1.0/src/include/cJSON.h
+END
+nagios_hpilo_engine.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/lnx-nire/!svn/ver/4/branches/lnx-nire-1.0/src/include/nagios_hpilo_engine.h
+END
+nagios_hpilo_common.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/lnx-nire/!svn/ver/98/branches/lnx-nire-1.0/src/include/nagios_hpilo_common.h
+END
+base64.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/lnx-nire/!svn/ver/92/branches/lnx-nire-1.0/src/include/base64.h
+END
+nagios_hpilo_restful_engine.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/lnx-nire/!svn/ver/98/branches/lnx-nire-1.0/src/include/nagios_hpilo_restful_engine.h
+END
+ilo-credit-store.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/lnx-nire/!svn/ver/48/branches/lnx-nire-1.0/src/include/ilo-credit-store.h
+END
+credit_save.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/lnx-nire/!svn/ver/98/branches/lnx-nire-1.0/src/include/credit_save.h
+END
