@@ -10,7 +10,7 @@ AC_CONFIG_MACRO_DIR([m4])
 
 m4_include([m4/m4-ax_compare_version.m4])
 
-AC_PREFIX_DEFAULT(/usr/libexec/nagios)
+AC_PREFIX_DEFAULT(/usr/local/nagios)
 
 # Checks for programs.
 AC_PROG_CC
@@ -60,5 +60,10 @@ AC_CONFIG_FILES([
 	scripts/hpeilo_nagios_config
 	scripts/hpeilo_snmp_service_set_tool
 ])
+
+B64=shell uname -m
+AM_CONDITIONAL(COMPILING_ON_64,  [test x"$B64" = xx86_64])
+OS=shell test -f /etc/debian_version && echo x
+AM_CONDITIONAL(COMPILING_ON_DEBIAN,  [test x"$OS" = x])
 
 AC_OUTPUT

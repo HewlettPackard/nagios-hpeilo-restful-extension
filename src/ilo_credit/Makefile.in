@@ -335,6 +335,9 @@ lib_LTLIBRARIES = libilocrst.la
 libilocrst_la_SOURCES = base64.c ilo-credit-store.cpp 
 libilocrst_la_LDFLAGS = -shared -fPIC -ltdb -lssl -lcrypto
 AUTOMAKE_OPTIONS = foreign
+@COMPILING_ON_64_FALSE@@COMPILING_ON_DEBIAN_FALSE@LIBPATH = /usr/lib
+@COMPILING_ON_64_TRUE@@COMPILING_ON_DEBIAN_FALSE@LIBPATH = /usr/lib64
+@COMPILING_ON_DEBIAN_TRUE@LIBPATH = /usr/lib/x86_64-linux-gnu
 all: all-am
 
 .SUFFIXES:
@@ -670,16 +673,12 @@ uninstall-am: uninstall-libLTLIBRARIES
 
 
 install:
-	LIBPATH=/usr/lib64; \
-	if test -f "/etc/debian_version"; then LIBPATH=/usr/lib/x86_64-linux-gnu; fi; \
-	install -m 755 .libs/libilocrst.so.0.0.0 $$LIBPATH; \
-        ln -sf $$LIBPATH/libilocrst.so.0.0.0 $$LIBPATH/libilocrst.so.0
+	install -m 755 .libs/libilocrst.so.0.0.0 $(LIBPATH); \
+        ln -sf $(LIBPATH)/libilocrst.so.0.0.0 $(LIBPATH)/libilocrst.so.0
 
 clean: clean-am
-	LIBPATH=/usr/lib64; \
-	if test -f "/etc/debian_version"; then LIBPATH=/usr/lib/x86_64-linux-gnu; fi; \
-	unlink $$LIBPATH/libilocrst.so.0; \
-	rm -f $$LIBPATH/libilocrst.so.0.0.0
+	unlink $(LIBPATH)/libilocrst.so.0; \
+	rm -f $(LIBPATH)/libilocrst.so.0.0.0
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

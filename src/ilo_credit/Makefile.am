@@ -8,14 +8,21 @@ libilocrst_la_LDFLAGS = -shared -fPIC -ltdb -lssl -lcrypto
 
 AUTOMAKE_OPTIONS = foreign
 
+if COMPILING_ON_DEBIAN
+        LIBPATH=/usr/lib/x86_64-linux-gnu
+else
+if COMPILING_ON_64
+        LIBPATH=/usr/lib64
+else
+        LIBPATH=/usr/lib
+endif
+
+endif
+
 install:
-	LIBPATH=/usr/lib64; \
-	if test -f "/etc/debian_version"; then LIBPATH=/usr/lib/x86_64-linux-gnu; fi; \
-	install -m 755 .libs/libilocrst.so.0.0.0 $$LIBPATH; \
-        ln -sf $$LIBPATH/libilocrst.so.0.0.0 $$LIBPATH/libilocrst.so.0
+	install -m 755 .libs/libilocrst.so.0.0.0 $(LIBPATH); \
+        ln -sf $(LIBPATH)/libilocrst.so.0.0.0 $(LIBPATH)/libilocrst.so.0
 
 clean: clean-am
-	LIBPATH=/usr/lib64; \
-	if test -f "/etc/debian_version"; then LIBPATH=/usr/lib/x86_64-linux-gnu; fi; \
-	unlink $$LIBPATH/libilocrst.so.0; \
-	rm -f $$LIBPATH/libilocrst.so.0.0.0
+	unlink $(LIBPATH)/libilocrst.so.0; \
+	rm -f $(LIBPATH)/libilocrst.so.0.0.0

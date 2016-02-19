@@ -574,8 +574,7 @@ exec 6>&1
 # hostname on some systems (SVR3.2, old GNU/Linux) returns a bogus exit status,
 # so uname gets run too.
 ac_hostname=`(hostname || uname -n) 2>/dev/null | sed 1q`
-#Name of the os.
-ac_osname=`lsb_release -i | grep Distributor | cut -d ':' -f2 | sed -e 's/^[ \t]*//'`
+
 #
 # Initializations.
 #
@@ -597,11 +596,7 @@ PACKAGE_BUGREPORT='ying.yang2@hpe.com'
 PACKAGE_URL=''
 
 ac_unique_file="src/restful/nagios_hpilo_restful_engine.c"
-if [[ $ac_osname = Ubuntu ]]; then
-  ac_default_prefix=/usr/lib/nagios
-else
-  ac_default_prefix=/usr/local/nagios
-fi
+ac_default_prefix=/usr/local/nagios
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -641,6 +636,10 @@ ac_includes_default="\
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
+COMPILING_ON_DEBIAN_FALSE
+COMPILING_ON_DEBIAN_TRUE
+COMPILING_ON_64_FALSE
+COMPILING_ON_64_TRUE
 LIBOBJS
 NMAP_PATH
 NMAP_MIN_VERSION
@@ -8585,10 +8584,6 @@ _lt_linker_boilerplate=`cat conftest.err`
 $RM -r conftest*
 
 
-## CAVEAT EMPTOR:
-## There is no encapsulation within the following macros, do not change
-## the running order or otherwise move them around unless you know exactly
-## what you are doing...
 if test -n "$compiler"; then
 
 lt_prog_compiler_no_builtin_flag=
@@ -15326,13 +15321,13 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 # Checks for libraries.
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for snmp_sess_init in -lsnmp" >&5
-$as_echo_n "checking for snmp_sess_init in -lsnmp... " >&6; }
-if ${ac_cv_lib_snmp_snmp_sess_init+:} false; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for snmp_sess_init in -lnetsnmp" >&5
+$as_echo_n "checking for snmp_sess_init in -lnetsnmp... " >&6; }
+if ${ac_cv_lib_netsnmp_snmp_sess_init+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lsnmp  $LIBS"
+LIBS="-lnetsnmp  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -15352,20 +15347,20 @@ return snmp_sess_init ();
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_snmp_snmp_sess_init=yes
+  ac_cv_lib_netsnmp_snmp_sess_init=yes
 else
-  ac_cv_lib_snmp_snmp_sess_init=no
+  ac_cv_lib_netsnmp_snmp_sess_init=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_snmp_snmp_sess_init" >&5
-$as_echo "$ac_cv_lib_snmp_snmp_sess_init" >&6; }
-if test "x$ac_cv_lib_snmp_snmp_sess_init" = xyes; then :
-  LIBS="$LIBS -lsnmp"
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_netsnmp_snmp_sess_init" >&5
+$as_echo "$ac_cv_lib_netsnmp_snmp_sess_init" >&6; }
+if test "x$ac_cv_lib_netsnmp_snmp_sess_init" = xyes; then :
+  LIBS="$LIBS -lnetsnmp"
 else
-  as_fn_error $? "Could not find snmp library." "$LINENO" 5
+  as_fn_error $? "Could not find net-snmp library." "$LINENO" 5
 fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for curl_easy_init in -lcurl" >&5
@@ -15665,6 +15660,25 @@ done
 ac_config_files="$ac_config_files Makefile src/ilo_credit/Makefile src/credit_save/Makefile src/restful/Makefile scripts/Makefile scripts/nagios_hpeilo_cfg_generator scripts/nagios_hpeilo_traps scripts/hpeilo_nagios_config scripts/hpeilo_snmp_service_set_tool"
 
 
+B64=shell uname -m
+ if test x"$B64" = xx86_64; then
+  COMPILING_ON_64_TRUE=
+  COMPILING_ON_64_FALSE='#'
+else
+  COMPILING_ON_64_TRUE='#'
+  COMPILING_ON_64_FALSE=
+fi
+
+OS=shell test -f /etc/debian_version && echo x
+ if test x"$OS" = x; then
+  COMPILING_ON_DEBIAN_TRUE=
+  COMPILING_ON_DEBIAN_FALSE='#'
+else
+  COMPILING_ON_DEBIAN_TRUE='#'
+  COMPILING_ON_DEBIAN_FALSE=
+fi
+
+
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -15800,6 +15814,14 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCXX\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COMPILING_ON_64_TRUE}" && test -z "${COMPILING_ON_64_FALSE}"; then
+  as_fn_error $? "conditional \"COMPILING_ON_64\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COMPILING_ON_DEBIAN_TRUE}" && test -z "${COMPILING_ON_DEBIAN_FALSE}"; then
+  as_fn_error $? "conditional \"COMPILING_ON_DEBIAN\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 

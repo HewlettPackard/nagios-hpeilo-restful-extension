@@ -14,18 +14,17 @@ Quick Installation
 
    After executing the following commands:
 	$ ./configure && make && sudo make install
-   Four files (nagios_hpeilo_engine, nagios_hpeilo_cfg_generator, nagios_hpeilo_traps
-and hpeilo_nagios_config) will be copied to the default folder 
-/usr/local/nagios/libexec	 on Rhel/Sles 
-/usr/lib/nagios/plugins		 on Ubuntu
+   Six files (credit_save, nagios_hpeilo_engine, nagios_hpeilo_cfg_generator,
+nagios_hpeilo_traps and hpeilo_nagios_config, hpeilo_snmp_service_set_tool)
+will be copied to the default folder "/usr/local/nagios/libexec".
 
-HP iLO Management configuration
+HPE iLO Management configuration
 ===============================
    In order to make iLO respond the SNMP requests, you should add "public" to 
 "Read Community" and "Trap Community" fields under
 Administration->Management->SNMP setting in iLO web page.
    In order for the monitoring server (Nagios server) to get the health 
-status of the HP ProLiant servers in real-time, the SNMP Alert Destination(s) 
+status of the HPE ProLiant servers in real-time, the SNMP Alert Destination(s) 
 field under Administration->Management->SNMP setting in iLO web page has to
 been configured with the IP address of the monitoring server. 
 
