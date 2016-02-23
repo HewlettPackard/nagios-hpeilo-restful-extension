@@ -4550,8 +4550,8 @@ macro_revision='1.3337'
 ltmain="$ac_aux_dir/ltmain.sh"
 
 # Make sure we can run config.sub.
-$SHELL "$ac_aux_dir/config.sub" sun4 >/dev/null 2>&1 ||
-  as_fn_error $? "cannot run $SHELL $ac_aux_dir/config.sub" "$LINENO" 5
+#$SHELL "$ac_aux_dir/config.sub" sun4 >/dev/null 2>&1 ||
+#  as_fn_error $? "cannot run $SHELL $ac_aux_dir/config.sub" "$LINENO" 5
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking build system type" >&5
 $as_echo_n "checking build system type... " >&6; }
