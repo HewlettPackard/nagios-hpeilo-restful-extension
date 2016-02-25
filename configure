@@ -636,11 +636,11 @@ ac_includes_default="\
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
+LIBOBJS
 COMPILING_ON_DEBIAN_FALSE
 COMPILING_ON_DEBIAN_TRUE
 COMPILING_ON_64_FALSE
 COMPILING_ON_64_TRUE
-LIBOBJS
 NMAP_PATH
 NMAP_MIN_VERSION
 CXXCPP
@@ -4550,8 +4550,8 @@ macro_revision='1.3337'
 ltmain="$ac_aux_dir/ltmain.sh"
 
 # Make sure we can run config.sub.
-#$SHELL "$ac_aux_dir/config.sub" sun4 >/dev/null 2>&1 ||
-#  as_fn_error $? "cannot run $SHELL $ac_aux_dir/config.sub" "$LINENO" 5
+$SHELL "$ac_aux_dir/config.sub" sun4 >/dev/null 2>&1 ||
+  as_fn_error $? "cannot run $SHELL $ac_aux_dir/config.sub" "$LINENO" 5
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking build system type" >&5
 $as_echo_n "checking build system type... " >&6; }
@@ -15321,48 +15321,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 # Checks for libraries.
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for snmp_sess_init in -lnetsnmp" >&5
-$as_echo_n "checking for snmp_sess_init in -lnetsnmp... " >&6; }
-if ${ac_cv_lib_netsnmp_snmp_sess_init+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lnetsnmp  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char snmp_sess_init ();
-int
-main ()
-{
-return snmp_sess_init ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_netsnmp_snmp_sess_init=yes
-else
-  ac_cv_lib_netsnmp_snmp_sess_init=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_netsnmp_snmp_sess_init" >&5
-$as_echo "$ac_cv_lib_netsnmp_snmp_sess_init" >&6; }
-if test "x$ac_cv_lib_netsnmp_snmp_sess_init" = xyes; then :
-  LIBS="$LIBS -lnetsnmp"
-else
-  as_fn_error $? "Could not find net-snmp library." "$LINENO" 5
-fi
-
+#AC_CHECK_LIB(netsnmp, snmp_sess_init, [LIBS="$LIBS -lnetsnmp"], [AC_MSG_ERROR(Could not find net-snmp library.)])
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for curl_easy_init in -lcurl" >&5
 $as_echo_n "checking for curl_easy_init in -lcurl... " >&6; }
 if ${ac_cv_lib_curl_curl_easy_init+:} false; then :
@@ -15472,6 +15431,20 @@ fi
 
 done
 
+for ac_header in openssl/bio.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "openssl/bio.h" "ac_cv_header_openssl_bio_h" "$ac_includes_default"
+if test "x$ac_cv_header_openssl_bio_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_OPENSSL_BIO_H 1
+_ACEOF
+
+else
+  as_fn_error $? "libssl library is required." "$LINENO" 5
+fi
+
+done
+
 
 # Check the nmap utility
 NMAP_MIN_VERSION=5.20
@@ -15517,6 +15490,23 @@ else
 $as_echo "no" >&6; }
 fi
 
+
+
+ if test "x`getconf LONG_BIT`"="x64"; then
+  COMPILING_ON_64_TRUE=
+  COMPILING_ON_64_FALSE='#'
+else
+  COMPILING_ON_64_TRUE='#'
+  COMPILING_ON_64_FALSE=
+fi
+
+ if test -f "/etc/debian_version"; then
+  COMPILING_ON_DEBIAN_TRUE=
+  COMPILING_ON_DEBIAN_FALSE='#'
+else
+  COMPILING_ON_DEBIAN_TRUE='#'
+  COMPILING_ON_DEBIAN_FALSE=
+fi
 
 
 if test "x$NMAP_PATH" = "xno"; then
@@ -15658,25 +15648,6 @@ fi
 done
 
 ac_config_files="$ac_config_files Makefile src/ilo_credit/Makefile src/credit_save/Makefile src/restful/Makefile scripts/Makefile scripts/nagios_hpeilo_cfg_generator scripts/nagios_hpeilo_traps scripts/hpeilo_nagios_config scripts/hpeilo_snmp_service_set_tool"
-
-
-B64=shell uname -m
- if test x"$B64" = xx86_64; then
-  COMPILING_ON_64_TRUE=
-  COMPILING_ON_64_FALSE='#'
-else
-  COMPILING_ON_64_TRUE='#'
-  COMPILING_ON_64_FALSE=
-fi
-
-OS=shell test -f /etc/debian_version && echo x
- if test x"$OS" = x; then
-  COMPILING_ON_DEBIAN_TRUE=
-  COMPILING_ON_DEBIAN_FALSE='#'
-else
-  COMPILING_ON_DEBIAN_TRUE='#'
-  COMPILING_ON_DEBIAN_FALSE=
-fi
 
 
 cat >confcache <<\_ACEOF

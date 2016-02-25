@@ -20,18 +20,22 @@ AC_PROG_LIBTOOL
 LT_INIT
 
 # Checks for libraries.
-AC_CHECK_LIB(netsnmp, snmp_sess_init, [LIBS="$LIBS -lnetsnmp"], [AC_MSG_ERROR(Could not find net-snmp library.)])
+#AC_CHECK_LIB(netsnmp, snmp_sess_init, [LIBS="$LIBS -lnetsnmp"], [AC_MSG_ERROR(Could not find net-snmp library.)])
 AC_CHECK_LIB(curl, curl_easy_init, , AC_MSG_ERROR([curl library is required.]))
 AC_CHECK_LIB(tdb, tdb_open, , AC_MSG_ERROR([tdb library is required.]))
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h string.h unistd.h])
+AC_CHECK_HEADERS([openssl/bio.h],, AC_MSG_ERROR([libssl library is required.]))
 
 # Check the nmap utility 
 NMAP_MIN_VERSION=5.20
 AC_SUBST(NMAP_MIN_VERSION)
 
 AC_PATH_PROG(NMAP_PATH, nmap, no)
+
+AM_CONDITIONAL([COMPILING_ON_64], [test "x`getconf LONG_BIT`"="x64"])
+AM_CONDITIONAL([COMPILING_ON_DEBIAN],  [test -f "/etc/debian_version"])
 
 if test "x$NMAP_PATH" = "xno"; then
     AC_MSG_ERROR(Cannot find nmap.)
@@ -60,10 +64,5 @@ AC_CONFIG_FILES([
 	scripts/hpeilo_nagios_config
 	scripts/hpeilo_snmp_service_set_tool
 ])
-
-B64=shell uname -m
-AM_CONDITIONAL(COMPILING_ON_64,  [test x"$B64" = xx86_64])
-OS=shell test -f /etc/debian_version && echo x
-AM_CONDITIONAL(COMPILING_ON_DEBIAN,  [test x"$OS" = x])
 
 AC_OUTPUT

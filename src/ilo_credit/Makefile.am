@@ -8,15 +8,16 @@ libilocrst_la_LDFLAGS = -shared -fPIC -ltdb -lssl -lcrypto
 
 AUTOMAKE_OPTIONS = foreign
 
-if COMPILING_ON_DEBIAN
-        LIBPATH=/usr/lib/x86_64-linux-gnu
-else
 if COMPILING_ON_64
-        LIBPATH=/usr/lib64
+  lib_path = /usr/lib64
 else
-        LIBPATH=/usr/lib
+  lib_path = /usr/lib
 endif
 
+if COMPILING_ON_DEBIAN
+  LIBPATH = /usr/lib/x86_64-linux-gnu
+else
+  LIBPATH = $(lib_path)
 endif
 
 install:
