@@ -28,18 +28,22 @@
 #define MEMORYINFO_ID 	21
 #define MEMORYSLOT_ID 	22
 #define MEMORYSTATE_ID 	23
-char root_iterates[] = "links:Member:href";
+char root_iterates[] = "Members:@odata.id";
 /* Array of HP iLO service table. */
 static struct generic_service_info ilo_service_table[] =
 {
-  {"/rest/v1/Systems", "",		"Status:Health",		"System Health"},	//1
-  {"/rest/v1/Chassis", "links:ThermalMetrics:href",	"Fans:Status:Health",		"Fan"}, 	//2
-  {"/rest/v1/Systems", "",		"Memory:Status:HealthRollUp",	"Memory"},		//3
-  {"/rest/v1/Managers", "links:EthernetInterfaces:href",	"Items:Status:Health", 	"Network"},	//4 
-  {"/rest/v1/Chassis", "links:PowerMetrics:href",		"PowerSupplies:Status:Health",	"Power Supply"},//5
-  {"/rest/v1/Systems", "",		"Processors:Status:HealthRollUp", "Processor"},		//6
-  {"/rest/v1/Systems", "Oem:Hp:links:SmartStorage:href",	"Status:Health",		"Storage"},//7
-  {"/rest/v1/Chassis", "links:ThermalMetrics:href",	"Temperatures:Status:Health",	"Temperature"}, //8
+  {"/redfish/v1/Systems", "",		"Status:Health",		"System Health"},	//1
+  {"/redfish/v1/Chassis", "Thermal:@odata.id",	"Fans:Status:Health",		"Fan"}, 	//2
+  {"/redfish/v1/Systems", "",		"MemorySummary:Status:HealthRollUp",	"Memory"},		//3  
+  //** Requires more than 2 GETs in Redfish, advice migrating to /redfish/v1/ResourceDirectory/ to reduce GETs
+  //{"/rest/v1/Managers", "links:EthernetInterfaces:href",	"Items:Status:Health", 	"Network"},	//4 
+  {0,0,0,0},  
+  {"/redfish/v1/Chassis", "Power:@odata.id",		"PowerSupplies:Status:Health",	"Power Supply"},//5
+  {"/redfish/v1/Systems", "",		"ProcessorSummary:Status:HealthRollUp", "Processor"},		//6
+  //** Requires more than 2 GETs in Redfish, advice migrating to /redfish/v1/ResourceDirectory/ to reduce GETs
+  //{"/rest/v1/Systems", "Oem:Hp:links:SmartStorage:href",	"Status:Health",		"Storage"},//7
+  {0,0,0,0},  
+  {"/redfish/v1/Chassis", "Thermal:@odata.id",	"Temperatures:Status:Health",	"Temperature"}, //8
   {0,0,0,0},
   {0,0,0,0},
   {"","","Fans:FanName","Fan"},											//11
@@ -52,7 +56,7 @@ static struct generic_service_info ilo_service_table[] =
   {0,0,0,0},
   {0,0,0,0},
   {0,0,0,0},
-  {"", "Oem:Hp:links:Memory:href", "links:Member:href", "Memory"},						//21
+  {"", "Oem:Hp:Links:Memory:@odata.id", "Members:@odata.id", "Memory"},						//21
   {"", "", "SocketLocator","Memory"},										//22
   {"", "", "DIMMStatus","Memory"},										//23
   {0,0,0,0},
